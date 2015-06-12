@@ -19,8 +19,5 @@
             }
             base.Dispose(disposing);
         }
-
-        private System.Windows.Forms.Button restart;
-        private System.Windows.Forms.Button exitGame;
     }
 }

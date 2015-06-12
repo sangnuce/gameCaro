@@ -12,8 +12,6 @@ namespace Caro
 {
     public partial class CoCaro : Form
     {
-        int dem = 0;
-        bool end = false;
         public CoCaro()
         {
             InitializeComponent();
@@ -21,39 +19,41 @@ namespace Caro
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CoCaro));
-            this.restart = new System.Windows.Forms.Button();
-            this.exitGame = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // restart
             // 
-            this.restart.BackColor = System.Drawing.Color.Yellow;
-            this.restart.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.restart.Font = new System.Drawing.Font("Times New Roman", 20F);
-            this.restart.ForeColor = System.Drawing.Color.Blue;
-            this.restart.Location = new System.Drawing.Point(20, 10);
-            this.restart.Name = "restart";
-            this.restart.Size = new System.Drawing.Size(200, 50);
-            this.restart.TabIndex = 0;
-            this.restart.Text = "Làm mới";
-            this.restart.UseVisualStyleBackColor = false;
-            this.restart.Click += new System.EventHandler(this.restart_Click);
+            Button restart = new Button();
+            restart.BackColor = System.Drawing.Color.Yellow;
+            restart.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            restart.Font = new System.Drawing.Font("Times New Roman", 20F);
+            restart.ForeColor = System.Drawing.Color.Blue;
+            restart.Location = new System.Drawing.Point(20, 10);
+            restart.Name = "restart";
+            restart.Size = new System.Drawing.Size(200, 50);
+            restart.TabIndex = 0;
+            restart.Text = "Làm mới";
+            restart.UseVisualStyleBackColor = false;
+            restart.Click += new System.EventHandler(this.restart_Click);
+            this.Controls.Add(restart);
             // 
             // exitGame
             // 
-            this.exitGame.BackColor = System.Drawing.Color.Yellow;
-            this.exitGame.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.exitGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exitGame.Font = new System.Drawing.Font("Times New Roman", 20F);
-            this.exitGame.ForeColor = System.Drawing.Color.Blue;
-            this.exitGame.Location = new System.Drawing.Point(230, 10);
-            this.exitGame.Name = "exitGame";
-            this.exitGame.Size = new System.Drawing.Size(100, 50);
-            this.exitGame.TabIndex = 0;
-            this.exitGame.Text = "Thoát";
-            this.exitGame.UseVisualStyleBackColor = false;
-            this.exitGame.Click += new System.EventHandler(this.exit_Click);
+            Button exitGame = new Button();
+            exitGame.BackColor = System.Drawing.Color.Yellow;
+            exitGame.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            exitGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            exitGame.Font = new System.Drawing.Font("Times New Roman", 20F);
+            exitGame.ForeColor = System.Drawing.Color.Blue;
+            exitGame.Location = new System.Drawing.Point(230, 10);
+            exitGame.Name = "exitGame";
+            exitGame.Size = new System.Drawing.Size(100, 50);
+            exitGame.TabIndex = 0;
+            exitGame.Text = "Thoát";
+            exitGame.UseVisualStyleBackColor = false;
+            exitGame.Click += new System.EventHandler(this.exit_Click);
+            this.Controls.Add(exitGame);
             //
             // Grid Table
             //
@@ -86,7 +86,7 @@ namespace Caro
             User.Top = 10;
             User.Left = 500;
             User.Name = "User";
-            User.Font = new Font("Times New Roman",20,FontStyle.Regular);
+            User.Font = new Font("Times New Roman", 20, FontStyle.Regular);
             User.Padding = new Padding(10);
             User.BackColor = Color.White;
             User.ForeColor = Color.Blue;
@@ -100,8 +100,6 @@ namespace Caro
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Green;
             this.ClientSize = new System.Drawing.Size(484, 261);
-            this.Controls.Add(this.restart);
-            this.Controls.Add(this.exitGame);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -113,14 +111,58 @@ namespace Caro
         }
         private int[] getIJ(string str)
         {
-            str=str.Remove(0,7);
+            str = str.Remove(0, 7);
             int[] ij = new int[2];
             string[] s = str.Split('_');
             ij[0] = Int32.Parse(s[0]);
             ij[1] = Int32.Parse(s[1]);
             return ij;
         }
-        string last_btn="square_0_0";
+        private bool endGame(Button btn)
+        {
+            int[] ij = new int[2];
+            ij = getIJ(btn.Name);
+            int c = 0;
+            for (int i = -4; i <= 4; i++)
+            {
+                if (ij[0] + i < 0 || ij[0] + i >= 20 || ij[1] + i < 0 || ij[1] + i >= 50) continue;
+                string name = "square_" + (ij[0] + i).ToString() + "_" + (ij[1] + i).ToString();
+                if (this.Controls[name].Text == btn.Text) c++;
+                else c = 0;
+                if (c == 5) return true;
+            }
+            c = 0;
+            for (int i = -4; i <= 4; i++)
+            {
+                if (ij[1] + i < 0 || ij[1] + i >= 50) continue;
+                string name = "square_" + ij[0].ToString() + "_" + (ij[1] + i).ToString();
+                if (this.Controls[name].Text == btn.Text) c++;
+                else c = 0;
+                if (c == 5) return true;
+            }
+            c = 0;
+            for (int i = -4; i <= 4; i++)
+            {
+                if (ij[0] + i < 0 || ij[0] + i >= 20) continue;
+                string name = "square_" + (ij[0] + i).ToString() + "_" + ij[1].ToString();
+                if (this.Controls[name].Text == btn.Text) c++;
+                else c = 0;
+                if (c == 5) return true;
+            }
+            c = 0;
+            for (int i = -4; i <= 4; i++)
+            {
+                if (ij[0] - i < 0 || ij[0] - i >= 20 || ij[1] + i < 0 || ij[1] + i >= 50) continue;
+                string name = "square_" + (ij[0] - i).ToString() + "_" + (ij[1] + i).ToString();
+                if (this.Controls[name].Text == btn.Text) c++;
+                else c = 0;
+                if (c == 5) return true;
+            }
+            return false;
+        }
+        private int dem = 0;
+        private bool end = false;
+        private string last_btn = "square_0_0";
         private void square_Click(object sender, EventArgs e)
         {
             if (end == true) MessageBox.Show("Click 'Làm mới' để bắt đầu ván khác!");
@@ -129,7 +171,7 @@ namespace Caro
                 Button btn = (Button)sender;
                 if (btn.Text == "")
                 {
-                    Button lastbtn = this.Controls.Find(last_btn,false)[0] as Button;
+                    Button lastbtn = this.Controls.Find(last_btn, false)[0] as Button;
                     lastbtn.FlatAppearance.BorderColor = Color.Green;
                     last_btn = btn.Name;
                     btn.FlatAppearance.BorderColor = Color.Orange;
@@ -146,49 +188,7 @@ namespace Caro
                         btn.Text = "x";
                         this.Controls["User"].Text = "Lượt đánh: Người 2 (O)";
                     }
-                    int[] ij = new int[2];
-                    ij = getIJ(btn.Name);
-                    int c = 0;
-                    for (int i = -4; i <= 4; i++)
-                    {
-                        if (ij[0] + i < 0 || ij[0] + i >= 20 || ij[1] + i < 0 || ij[1] + i >= 50) continue;
-                        string name = "square_" + (ij[0] + i).ToString() + "_" + (ij[1] + i).ToString();
-                        if (this.Controls[name].Text == btn.Text) c++;
-                        else c = 0;
-                        if (c == 5) break;
-                    }
-                    if (c == 5) end = true;
-                    else c = 0;
-                    for (int i = -4; i <= 4; i++)
-                    {
-                        if (ij[1] + i < 0 || ij[1] + i >= 50) continue;
-                        string name = "square_" + ij[0].ToString() + "_" + (ij[1] + i).ToString();
-                        if (this.Controls[name].Text == btn.Text) c++;
-                        else c = 0;
-                        if (c == 5) break;
-                    }
-                    if (c == 5) end = true;
-                    else c = 0;
-                    for (int i = -4; i <= 4; i++)
-                    {
-                        if (ij[0] + i < 0 || ij[0] + i >= 20) continue;
-                        string name = "square_" + (ij[0] + i).ToString() + "_" + ij[1].ToString();
-                        if (this.Controls[name].Text == btn.Text) c++;
-                        else c = 0;
-                        if (c == 5) break;
-                    }
-                    if (c == 5) end = true;
-                    else c = 0;
-                    for (int i = -4; i <= 4; i++)
-                    {
-                        if (ij[0] - i < 0 || ij[0] - i >= 20 || ij[1] + i < 0 || ij[1] + i >= 50) continue;
-                        string name = "square_" + (ij[0] - i).ToString() + "_" + (ij[1] + i).ToString();
-                        if (this.Controls[name].Text == btn.Text) c++;
-                        else c = 0;
-                        if (c == 5) break;
-                    }
-                    if (c == 5) end = true;
-                    else c = 0;
+                    end = endGame(btn);
                     if (end == true)
                     {
                         if (dem % 2 == 0) MessageBox.Show("Người 2 (O) thắng!");
