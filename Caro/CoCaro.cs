@@ -111,18 +111,6 @@ namespace Caro
             this.ResumeLayout(false);
 
         }
-        private void replay()
-        {
-            dem = 0;
-            end = false;
-            this.Controls["User"].Text = "Lượt đánh: Người 1 (X)";
-            for (int i = 0; i < 20; i++)
-                for (int j = 0; j < 50; j++)
-                {
-                    string name = "square_" + i.ToString() + "_" + j.ToString();
-                    this.Controls[name].Text = "";
-                }
-        }
         private int[] getIJ(string str)
         {
             str=str.Remove(0,7);
@@ -216,7 +204,18 @@ namespace Caro
         }
         private void restart_Click(object sender, EventArgs e)
         {
-            this.replay();
+            dem = 0;
+            Button lastbtn = this.Controls.Find(last_btn, false)[0] as Button;
+            lastbtn.FlatAppearance.BorderColor = Color.Green;
+            last_btn = "square_0_0";
+            end = false;
+            this.Controls["User"].Text = "Lượt đánh: Người 1 (X)";
+            for (int i = 0; i < 20; i++)
+                for (int j = 0; j < 50; j++)
+                {
+                    string name = "square_" + i.ToString() + "_" + j.ToString();
+                    this.Controls[name].Text = "";
+                }
         }
         private void exit_Click(object sender, EventArgs e)
         {
