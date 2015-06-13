@@ -12,6 +12,8 @@ namespace Caro
 {
     public partial class CoCaro : Form
     {
+        private int mode = 1;
+        private int[][] diem = new int[20][];
         public CoCaro()
         {
             InitializeComponent();
@@ -21,22 +23,37 @@ namespace Caro
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CoCaro));
             this.SuspendLayout();
             // 
-            // restart
+            // Mode
             // 
-            Button restart = new Button();
-            restart.BackColor = System.Drawing.Color.Yellow;
-            restart.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            restart.Font = new System.Drawing.Font("Times New Roman", 20F);
-            restart.ForeColor = System.Drawing.Color.Blue;
-            restart.Location = new System.Drawing.Point(20, 10);
-            restart.Name = "restart";
-            restart.Size = new System.Drawing.Size(200, 50);
-            restart.TabIndex = 0;
-            restart.Text = "Làm mới";
-            restart.UseVisualStyleBackColor = false;
-            restart.Click += new System.EventHandler(this.restart_Click);
-            this.Controls.Add(restart);
+            Button mode1 = new Button();
+            mode1.BackColor = System.Drawing.Color.Yellow;
+            mode1.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            mode1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            mode1.Font = new System.Drawing.Font("Times New Roman", 15, FontStyle.Regular);
+            mode1.ForeColor = System.Drawing.Color.Blue;
+            mode1.Location = new System.Drawing.Point(20, 10);
+            mode1.Name = "mode1";
+            mode1.Size = new System.Drawing.Size(100, 50);
+            mode1.TabIndex = 0;
+            mode1.Text = "1 Player";
+            mode1.UseVisualStyleBackColor = false;
+            mode1.Click += new System.EventHandler(this.mode1_Click);
+            this.Controls.Add(mode1);
+
+            Button mode2 = new Button();
+            mode2.BackColor = System.Drawing.Color.Yellow;
+            mode2.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            mode2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            mode2.Font = new System.Drawing.Font("Times New Roman",15, FontStyle.Regular);
+            mode2.ForeColor = System.Drawing.Color.Blue;
+            mode2.Location = new System.Drawing.Point(122, 10);
+            mode2.Name = "mode2";
+            mode2.Size = new System.Drawing.Size(100, 50);
+            mode2.TabIndex = 0;
+            mode2.Text = "2 Players";
+            mode2.UseVisualStyleBackColor = false;
+            mode2.Click += new System.EventHandler(this.mode2_Click);
+            this.Controls.Add(mode2);
             // 
             // exitGame
             // 
@@ -54,43 +71,6 @@ namespace Caro
             exitGame.UseVisualStyleBackColor = false;
             exitGame.Click += new System.EventHandler(this.exit_Click);
             this.Controls.Add(exitGame);
-            //
-            // Grid Table
-            //
-            for (int i = 0; i < 20; i++)
-                for (int j = 0; j < 50; j++)
-                {
-                    Button square = new Button();
-                    square.Text = "";
-                    square.Width = 25;
-                    square.Height = 25;
-                    square.Top = 25 * i + 62;
-                    square.Left = 25 * j + 20;
-                    square.Name = "square_" + i.ToString() + "_" + j.ToString();
-                    square.TextAlign = ContentAlignment.MiddleCenter;
-                    square.Font = new Font("Times New Roman", 10, FontStyle.Regular);
-                    square.BackColor = Color.White;
-                    square.FlatStyle = FlatStyle.Flat;
-                    square.FlatAppearance.BorderColor = Color.Green;
-                    square.FlatAppearance.BorderSize = 1;
-                    square.Click += new EventHandler(this.square_Click);
-                    this.Controls.Add(square);
-                }
-            //
-            // Label user
-            //
-            Label User = new Label();
-            User.Text = "Lượt đánh: Người 1 (X)";
-            User.Width = 300;
-            User.Height = 50;
-            User.Top = 10;
-            User.Left = 500;
-            User.Name = "User";
-            User.Font = new Font("Times New Roman", 20, FontStyle.Regular);
-            User.Padding = new Padding(10);
-            User.BackColor = Color.White;
-            User.ForeColor = Color.Blue;
-            this.Controls.Add(User);
             // 
             // CoCaro
             //
@@ -107,7 +87,88 @@ namespace Caro
             this.Padding = new Padding(20);
             this.Text = "Cờ Caro";
             this.ResumeLayout(false);
-
+        }
+        private void mode1_Click(object sender, EventArgs e)
+        {
+            this.mode = 1;
+            Button mod1 = this.Controls.Find("mode1", true)[0] as Button;
+            Button mod2 = this.Controls.Find("mode2", true)[0] as Button;
+            mod1.Visible = false;
+            mod2.Visible = false;
+            this.khoiTao();
+        }
+        private void mode2_Click(object sender, EventArgs e)
+        {
+            this.mode = 2;
+            Button mod1 = this.Controls.Find("mode1", true)[0] as Button;
+            Button mod2 = this.Controls.Find("mode2", true)[0] as Button;
+            mod1.Visible = false;
+            mod2.Visible = false;
+            this.khoiTao();
+        }
+        private void khoiTao()
+        {
+            // 
+            // restart
+            // 
+            Button restart = new Button();
+            restart.BackColor = System.Drawing.Color.Yellow;
+            restart.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            restart.Font = new System.Drawing.Font("Times New Roman", 20F);
+            restart.ForeColor = System.Drawing.Color.Blue;
+            restart.Location = new System.Drawing.Point(20, 10);
+            restart.Name = "restart";
+            restart.Size = new System.Drawing.Size(200, 50);
+            restart.TabIndex = 0;
+            restart.Text = "Làm mới";
+            restart.UseVisualStyleBackColor = false;
+            restart.Click += new System.EventHandler(this.restart_Click);
+            this.Controls.Add(restart);
+            //
+            // Grid Table
+            //
+            for (int i = 0; i < 20; i++)
+            {
+                if (mode == 1) this.diem[i] = new int[50];
+                for (int j = 0; j < 50; j++)
+                {
+                    if (mode == 1) this.diem[i][j] = 0;
+                    Button square = new Button();
+                    square.Text = "";
+                    square.Width = 25;
+                    square.Height = 25;
+                    square.Top = 25 * i + 62;
+                    square.Left = 25 * j + 20;
+                    square.Name = "square_" + i.ToString() + "_" + j.ToString();
+                    square.TextAlign = ContentAlignment.MiddleCenter;
+                    square.Font = new Font("Times New Roman", 10, FontStyle.Regular);
+                    square.BackColor = Color.White;
+                    square.FlatStyle = FlatStyle.Flat;
+                    square.FlatAppearance.BorderColor = Color.Green;
+                    square.FlatAppearance.BorderSize = 1;
+                    square.Click += new EventHandler(this.square_Click);
+                    this.Controls.Add(square);
+                }
+            }
+            //
+            // Label user
+            //
+            if (mode == 2)
+            {
+                Label User = new Label();
+                User.Text = "Lượt đánh: Người 1 (X)";
+                User.Width = 300;
+                User.Height = 50;
+                User.Top = 10;
+                User.Left = 500;
+                User.Name = "user";
+                User.Font = new Font("Times New Roman", 20, FontStyle.Regular);
+                User.Padding = new Padding(10);
+                User.BackColor = Color.White;
+                User.ForeColor = Color.Blue;
+                this.Controls.Add(User);
+            }
         }
         private int[] getIJ(string str)
         {
@@ -160,6 +221,223 @@ namespace Caro
             }
             return false;
         }
+        private void tinhDiem(Button btn, int i, int j)
+        {
+            this.diem[i][j] = 0;
+            //Tinh diem cheo trai->phai
+            for (int k = 4; k >= -4; k--)
+            {
+                if (k == 0 || i - k < 0 || i - k > 19 || j - k < 0 || j - k > 49) continue;
+                Button btn1 = this.Controls.Find("square_" + (i - k).ToString() + "_" + (j - k).ToString(), false)[0] as Button;
+                if (btn1.Text == "")
+                {
+                    int count = 0;
+                    string first="";
+                    string prev = "";
+                    for (int u = k + 1; u <= k + 4; u++)
+                    {
+                        if (i - u < 0 || i - u > 19 || j - u < 0 || j - u > 49) continue;
+                        Button btn2 = this.Controls.Find("square_" + (i - u).ToString() + "_" + (j - u).ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                            first = prev;
+                        }
+                        if (btn2.Text == prev && prev!="")
+                            count++;
+                        else break;
+                    }
+                    prev = "";
+                    int c2 = 0;
+                    for (int u = k - 1; u >= k - 4; u--)
+                    {
+                        if (i - u < 0 || i - u > 19 || j - u < 0 || j - u > 49) continue;
+                        Button btn2 = this.Controls.Find("square_" + (i - u).ToString() + "_" + (j - u).ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            if(btn2.Text == first)
+                                count++;
+                            else c2++;
+                        else break;
+                    }
+                    if (c2 == 0)
+                    {
+                        if (this.diem[i - k][j - k] < count) this.diem[i - k][j - k] = count;
+                    }
+                    else
+                    {
+                        int max = count > c2 ? count : c2;
+                        if (this.diem[i - k][j - k] < max) this.diem[i - k][j - k] = max;
+                    }
+                }
+            }
+            //Tinh diem cheo phai->trai
+            for (int k = 4; k >= -4; k--)
+            {
+                if (k == 0 || i - k < 0 || i - k > 19 || j + k < 0 || j + k > 49) continue;
+                Button btn1 = this.Controls.Find("square_" + (i - k).ToString() + "_" + (j + k).ToString(), false)[0] as Button;
+                if (btn1.Text == "")
+                {
+                    int count = 0;
+                    string first = "";
+                    string prev = "";
+                    for (int u = k + 1; u <= k + 4; u++)
+                    {
+                        if (i - u < 0 || i - u > 19 || j + u < 0 || j + u > 49) continue;
+                        Button btn2 = this.Controls.Find("square_" + (i - u).ToString() + "_" + (j + u).ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                            first = prev;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            count++;
+                        else break;
+                    }
+                    prev = "";
+                    int c2 = 0;
+                    for (int u = k - 1; u >= k - 4; u--)
+                    {
+                        if (i - u < 0 || i - u > 19 || j + u < 0 || j + u > 49) continue;
+                        Button btn2 = this.Controls.Find("square_" + (i - u).ToString() + "_" + (j + u).ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            if (btn2.Text == first)
+                                count++;
+                            else c2++;
+                        else break;
+                    }
+                    if (c2 == 0)
+                    {
+                        if (this.diem[i - k][j + k] < count) this.diem[i - k][j + k] = count;
+                    }
+                    else
+                    {
+                        int max = count > c2 ? count : c2;
+                        if (this.diem[i - k][j + k] < max) this.diem[i - k][j + k] = max;
+                    }
+                }
+            }
+            //Tinh diem doc
+            for (int k = 4; k >= -4; k--)
+            {
+                if (k == 0 || i - k < 0 || i - k > 19) continue;
+                Button btn1 = this.Controls.Find("square_" + (i - k).ToString() + "_" + j.ToString(), false)[0] as Button;
+                if (btn1.Text == "")
+                {
+                    int count = 0;
+                    string first = "";
+                    string prev = "";
+                    for (int u = k + 1; u <= k + 4; u++)
+                    {
+                        if (i - u < 0 || i - u > 19) continue;
+                        Button btn2 = this.Controls.Find("square_" + (i - u).ToString() + "_" + j.ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                            first = prev;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            count++;
+                        else break;
+                    }
+                    prev = "";
+                    int c2 = 0;
+                    for (int u = k - 1; u >= k - 4; u--)
+                    {
+                        if (i - u < 0 || i - u > 19) continue;
+                        Button btn2 = this.Controls.Find("square_" + (i - u).ToString() + "_" + j.ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            if (btn2.Text == first)
+                                count++;
+                            else c2++;
+                        else break;
+                    }
+                    if (c2 == 0)
+                    {
+                        if (this.diem[i - k][j] < count) this.diem[i - k][j] = count;
+                    }
+                    else
+                    {
+                        int max = count > c2 ? count : c2;
+                        if (this.diem[i - k][j - k] < max) this.diem[i - k][j] = max;
+                    }
+                }
+            }
+            //Tinh diem ngang
+            for (int k = 4; k >= -4; k--)
+            {
+                if (k == 0 || j - k < 0 || j - k > 49) continue;
+                Button btn1 = this.Controls.Find("square_" + i.ToString() + "_" + (j - k).ToString(), false)[0] as Button;
+                if (btn1.Text == "")
+                {
+                    int count = 0;
+                    string first = "";
+                    string prev = "";
+                    for (int u = k + 1; u <= k + 4; u++)
+                    {
+                        if (j - u < 0 || j - u > 49) continue;
+                        Button btn2 = this.Controls.Find("square_" + i.ToString() + "_" + (j - u).ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                            first = prev;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            count++;
+                        else break;
+                    }
+                    prev = "";
+                    int c2 = 0;
+                    for (int u = k - 1; u >= k - 4; u--)
+                    {
+                        if (j - u < 0 || j - u > 49) continue;
+                        Button btn2 = this.Controls.Find("square_" + i.ToString() + "_" + (j - u).ToString(), false)[0] as Button;
+                        if (btn2.Text != "" && prev == "")
+                        {
+                            prev = btn2.Text;
+                        }
+                        if (btn2.Text == prev && prev != "")
+                            if (btn2.Text == first)
+                                count++;
+                            else c2++;
+                        else break;
+                    }
+                    if (c2 == 0)
+                    {
+                        if (this.diem[i][j - k] < count) this.diem[i][j - k] = count;
+                    }
+                    else
+                    {
+                        int max = count > c2 ? count : c2;
+                        if (this.diem[i][j - k] < max) this.diem[i][j - k] = max;
+                    }
+                }
+            }
+        }
+        private string timMax()
+        {
+            string name = "square_0_0";
+            int max = 0;
+            for (int i = 0; i < 20; i++)
+                for (int j = 0; j < 50; j++)
+                    if (this.diem[i][j] > max)
+                    {
+                        max = this.diem[i][j];
+                        name = "square_" + i.ToString() + "_" + j.ToString();
+                    }
+            return name;
+        }
         private int dem = 0;
         private bool end = false;
         private string last_btn = "square_0_0";
@@ -176,28 +454,68 @@ namespace Caro
                     last_btn = btn.Name;
                     btn.FlatAppearance.BorderColor = Color.Orange;
                     dem++;
-                    if (dem % 2 == 0)
+                    if (mode == 2)
                     {
-                        btn.ForeColor = Color.Red;
-                        btn.Text = "o";
-                        this.Controls["User"].Text = "Lượt đánh: Người 1 (X)";
+                        if (dem % 2 == 0)
+                        {
+                            btn.ForeColor = Color.Red;
+                            btn.Text = "o";
+                            this.Controls["user"].Text = "Lượt đánh: Người 1 (X)";
+                        }
+                        else
+                        {
+                            btn.ForeColor = Color.Blue;
+                            btn.Text = "x";
+                            this.Controls["user"].Text = "Lượt đánh: Người 2 (O)";
+                        }
                     }
                     else
                     {
                         btn.ForeColor = Color.Blue;
                         btn.Text = "x";
-                        this.Controls["User"].Text = "Lượt đánh: Người 2 (O)";
                     }
                     end = endGame(btn);
-                    if (end == true)
+                        if (end == true)
+                        {
+                            if (dem % 2 == 0)
+                                if (mode == 1) MessageBox.Show("Máy (O) thắng!");
+                                else MessageBox.Show("Người 2 (O) thắng!");
+                            else MessageBox.Show("Người 1 (X) thắng!");
+                        }
+                        else if (dem == 1000)
+                        {
+                            MessageBox.Show("Hết ô đánh. Bất phân thắng bại!");
+                            end = true;
+                        }
+                    if(mode==1)
                     {
-                        if (dem % 2 == 0) MessageBox.Show("Người 2 (O) thắng!");
-                        else MessageBox.Show("Người 1 (X) thắng!");
-                    }
-                    else if (dem == 1000)
-                    {
-                        MessageBox.Show("Hết ô đánh. Bất phân thắng bại!");
-                        end = true;
+                        if (end == false)
+                        {
+                            dem++;
+                            int[] ij = new int[2];
+                            ij = getIJ(btn.Name);
+                            tinhDiem(btn, ij[0], ij[1]);
+                            string name = timMax();
+                            Button btn1 = this.Controls.Find(name, false)[0] as Button;
+                            btn.FlatAppearance.BorderColor = Color.Green;
+                            last_btn = btn1.Name;
+                            btn1.FlatAppearance.BorderColor = Color.Orange;
+                            btn1.ForeColor = Color.Red;
+                            btn1.Text = "o";
+                            end = endGame(btn1);
+                            if (end == true)
+                            {
+                                if (dem % 2 == 0) MessageBox.Show("Máy (O) thắng!");
+                                else MessageBox.Show("Người 1 (X) thắng!");
+                            }
+                            else if (dem == 1000)
+                            {
+                                MessageBox.Show("Hết ô đánh. Bất phân thắng bại!");
+                                end = true;
+                            }
+                            ij = getIJ(name);
+                            tinhDiem(btn1, ij[0], ij[1]);
+                        }
                     }
                 }
             }
@@ -209,10 +527,11 @@ namespace Caro
             lastbtn.FlatAppearance.BorderColor = Color.Green;
             last_btn = "square_0_0";
             end = false;
-            this.Controls["User"].Text = "Lượt đánh: Người 1 (X)";
+            if (mode == 2) this.Controls["user"].Text = "Lượt đánh: Người 1 (X)";
             for (int i = 0; i < 20; i++)
                 for (int j = 0; j < 50; j++)
                 {
+                    if (mode == 1) this.diem[i][j] = 0;
                     string name = "square_" + i.ToString() + "_" + j.ToString();
                     this.Controls[name].Text = "";
                 }
