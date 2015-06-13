@@ -431,7 +431,7 @@ namespace Caro
             int max = 0;
             for (int i = 0; i < 20; i++)
                 for (int j = 0; j < 50; j++)
-                    if (this.diem[i][j] > max)
+                    if (this.diem[i][j] >= max)
                     {
                         max = this.diem[i][j];
                         name = "square_" + i.ToString() + "_" + j.ToString();
