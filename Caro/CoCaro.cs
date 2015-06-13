@@ -370,7 +370,7 @@ namespace Caro
                     else
                     {
                         int max = count > c2 ? count : c2;
-                        if (this.diem[i - k][j - k] < max) this.diem[i - k][j] = max;
+                        if (this.diem[i - k][j] < max) this.diem[i - k][j] = max;
                     }
                 }
             }
