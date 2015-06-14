@@ -243,9 +243,19 @@ namespace Caro
                             prev = btn2.Text;
                             first = prev;
                         }
-                        if (btn2.Text == prev && prev!="")
-                            count++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                count += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     prev = "";
                     int c2 = 0;
@@ -256,20 +266,33 @@ namespace Caro
                         if (btn2.Text != "" && prev == "")
                         {
                             prev = btn2.Text;
+                            if (first == prev) count++;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            if(btn2.Text == first)
-                                count++;
-                            else c2++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                if (prev == first)
+                                    count += 2;
+                                else c2 += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     if (c2 == 0)
                     {
+                        if (first == "o" && count == 4) count = 5;
                         if (this.diem[i - k][j - k] < count) this.diem[i - k][j - k] = count;
                     }
                     else
                     {
                         int max = count > c2 ? count : c2;
+                        if (max == 4 && (prev == "o" || first == "o")) max = 5;
                         if (this.diem[i - k][j - k] < max) this.diem[i - k][j - k] = max;
                     }
                 }
@@ -293,9 +316,19 @@ namespace Caro
                             prev = btn2.Text;
                             first = prev;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            count++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                count += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     prev = "";
                     int c2 = 0;
@@ -306,20 +339,33 @@ namespace Caro
                         if (btn2.Text != "" && prev == "")
                         {
                             prev = btn2.Text;
+                            if (first == prev) count++;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            if (btn2.Text == first)
-                                count++;
-                            else c2++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                if (prev == first)
+                                    count += 2;
+                                else c2 += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     if (c2 == 0)
                     {
+                        if (first == "o" && count == 4) count = 5;
                         if (this.diem[i - k][j + k] < count) this.diem[i - k][j + k] = count;
                     }
                     else
                     {
                         int max = count > c2 ? count : c2;
+                        if (max == 4 && (prev == "o" || first == "o")) max = 5;
                         if (this.diem[i - k][j + k] < max) this.diem[i - k][j + k] = max;
                     }
                 }
@@ -343,9 +389,19 @@ namespace Caro
                             prev = btn2.Text;
                             first = prev;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            count++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                count += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     prev = "";
                     int c2 = 0;
@@ -356,20 +412,33 @@ namespace Caro
                         if (btn2.Text != "" && prev == "")
                         {
                             prev = btn2.Text;
+                            if (first == prev) count++;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            if (btn2.Text == first)
-                                count++;
-                            else c2++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                if (prev == first)
+                                    count += 2;
+                                else c2 += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     if (c2 == 0)
                     {
+                        if (first == "o" && count == 4) count = 5;
                         if (this.diem[i - k][j] < count) this.diem[i - k][j] = count;
                     }
                     else
                     {
                         int max = count > c2 ? count : c2;
+                        if (max == 4 && (prev == "o" || first == "o")) max = 5;
                         if (this.diem[i - k][j] < max) this.diem[i - k][j] = max;
                     }
                 }
@@ -393,33 +462,57 @@ namespace Caro
                             prev = btn2.Text;
                             first = prev;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            count++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                count += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     prev = "";
                     int c2 = 0;
                     for (int u = k - 1; u >= k - 4; u--)
+
                     {
                         if (j - u < 0 || j - u > 49) continue;
                         Button btn2 = this.Controls.Find("square_" + i.ToString() + "_" + (j - u).ToString(), false)[0] as Button;
                         if (btn2.Text != "" && prev == "")
                         {
                             prev = btn2.Text;
+                            if (first == prev) count++;
                         }
-                        if (btn2.Text == prev && prev != "")
-                            if (btn2.Text == first)
-                                count++;
-                            else c2++;
-                        else break;
+                        if (prev != "")
+                            if (btn2.Text == prev)
+                                if (prev == first)
+                                    count += 2;
+                                else c2 += 2;
+                            else
+                            {
+                                if (btn2.Text != "")
+                                {
+                                    count--;
+                                    break;
+                                }
+                            }
+                        else
+                            break;
                     }
                     if (c2 == 0)
                     {
+                        if (first == "o" && count == 4) count = 5;
                         if (this.diem[i][j - k] < count) this.diem[i][j - k] = count;
                     }
                     else
                     {
                         int max = count > c2 ? count : c2;
+                        if (max == 4 && (prev == "o" || first == "o")) max = 5;
                         if (this.diem[i][j - k] < max) this.diem[i][j - k] = max;
                     }
                 }
